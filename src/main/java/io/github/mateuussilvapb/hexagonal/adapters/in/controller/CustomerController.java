@@ -6,6 +6,7 @@ import io.github.mateuussilvapb.hexagonal.adapters.in.controller.response.Custom
 import io.github.mateuussilvapb.hexagonal.application.core.domain.Customer;
 import io.github.mateuussilvapb.hexagonal.application.ports.in.FindCustomerByIdInputPort;
 import io.github.mateuussilvapb.hexagonal.application.ports.in.InsertCustomerInputPort;
+import io.github.mateuussilvapb.hexagonal.application.ports.in.UpdateCustomerInputPort;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,9 @@ public class CustomerController {
     @Autowired
     private CustomerMapper customerMapper;
 
+    @Autowired
+    UpdateCustomerInputPort updateCustomerInputPort;
+
     @PostMapping
     public ResponseEntity<Void> insert(@Valid @RequestBody CustomerRequest customerRequest) {
         Customer customer = this.customerMapper.toCustomer(customerRequest);
@@ -36,5 +40,13 @@ public class CustomerController {
         Customer customer = this.findCustomerByIdInputPort.find(id);
         CustomerResponse customerResponse = this.customerMapper.toCustomerResponse(customer);
         return ResponseEntity.ok().body(customerResponse);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable final String id, @Valid @RequestBody CustomerRequest customerRequest) {
+        Customer customer = this.customerMapper.toCustomer(customerRequest);
+        customer.setId(id);
+        this.updateCustomerInputPort.update(customer, customerRequest.getZipCode());
+        return ResponseEntity.noContent().build();
     }
 }
