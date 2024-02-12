@@ -8,7 +8,7 @@ public class FindCustomerByIdUseCase implements FindCustomerByIdInputPort {
 
     private final FindCustomerByIdOutputPort findCustomerByIdOutputPort;
 
-    FindCustomerByIdUseCase(FindCustomerByIdOutputPort findCustomerByIdOutputPort) {
+    public FindCustomerByIdUseCase(FindCustomerByIdOutputPort findCustomerByIdOutputPort) {
         this.findCustomerByIdOutputPort = findCustomerByIdOutputPort;
     }
 
