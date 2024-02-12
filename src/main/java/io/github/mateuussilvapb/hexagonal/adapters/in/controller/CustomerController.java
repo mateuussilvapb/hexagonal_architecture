@@ -4,6 +4,7 @@ import io.github.mateuussilvapb.hexagonal.adapters.in.controller.mapper.Customer
 import io.github.mateuussilvapb.hexagonal.adapters.in.controller.request.CustomerRequest;
 import io.github.mateuussilvapb.hexagonal.adapters.in.controller.response.CustomerResponse;
 import io.github.mateuussilvapb.hexagonal.application.core.domain.Customer;
+import io.github.mateuussilvapb.hexagonal.application.ports.in.DeleteCustomerByIdInputPort;
 import io.github.mateuussilvapb.hexagonal.application.ports.in.FindCustomerByIdInputPort;
 import io.github.mateuussilvapb.hexagonal.application.ports.in.InsertCustomerInputPort;
 import io.github.mateuussilvapb.hexagonal.application.ports.in.UpdateCustomerInputPort;
@@ -28,6 +29,9 @@ public class CustomerController {
     @Autowired
     UpdateCustomerInputPort updateCustomerInputPort;
 
+    @Autowired
+    DeleteCustomerByIdInputPort deleteCustomerByIdInputPort;
+
     @PostMapping
     public ResponseEntity<Void> insert(@Valid @RequestBody CustomerRequest customerRequest) {
         Customer customer = this.customerMapper.toCustomer(customerRequest);
@@ -47,6 +51,12 @@ public class CustomerController {
         Customer customer = this.customerMapper.toCustomer(customerRequest);
         customer.setId(id);
         this.updateCustomerInputPort.update(customer, customerRequest.getZipCode());
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable final String id) {
+        this.deleteCustomerByIdInputPort.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
