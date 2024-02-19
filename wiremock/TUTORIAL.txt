@@ -1,0 +1,32 @@
+1. Para dar start no wiremock, abra o terminal na pasta do jar e execute o comando 'java -jar NOME_DO_ARQUIVO_JAR'
+	Obs.: caso seja necessário alterar a porta padrão do wiremock (8080), adicionar '--port NUMERO_PORTA_DESEJADA' 
+	após o nome do arquivo JAR no comando acima
+
+2. Serão criadas duas pastas: __files e mappings
+
+3. Na pasta mappings, devemos inserir os arquivos JSON com o conteúdo de retorno desejado, bem como outras informações. Por exemplo:
+	
+{
+    "request": {
+        "method": "GET",
+        "url": "/addresses/38400001"
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "jsonBody": {
+            "street": "Rua das Flores",
+            "city": "São Paulo",
+            "state": "São Paulo"
+        }
+    }
+}
+
+4. Para essa requisição, a URL seria: 
+	-> http://localhost:8080/addresses/38400001
+	-> Resposta:
+	            "street": "Rua das Flores",
+	            "city": "São Paulo",
+        	    "state": "São Paulo"
