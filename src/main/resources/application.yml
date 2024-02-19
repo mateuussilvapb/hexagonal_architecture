@@ -12,3 +12,6 @@ spring:
       username: root
       password: example
       database: hexagonal
+
+server:
+  port: 8081
